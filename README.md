@@ -2,17 +2,14 @@
 
 A comprehensive project to test and validate the precision of Envoy Gateway's distributed rate limiting capabilities using Kubernetes Gateway API and Redis-backed rate limiting.
 
-![Architecture](.doc-assets/architecture.png)
-
+![Architecture](https://github.com/user-attachments/assets/fb5b561a-a716-48fd-b935-f70102d41e36)
 ## 📋 Table of Contents
-
 - [Overview](#overview)
-- [Architecture](#architecture)
+- [Results](#results)
 - [Envoy Gateway Configuration](#envoy-gateway-configuration)
 - [Rate Limit Policies](#rate-limit-policies)
 - [Load Testing with k6](#load-testing-with-k6)
-- [Test Results & Insights](#test-results--insights)
-- [Prerequisites](#prerequisites)
+- [Detailed Tests Results](#detailed-tests-results)
 
 ---
 
@@ -28,56 +25,25 @@ The testing infrastructure processes **~175,000 requests over 60 seconds** acros
 
 ---
 
-## Architecture
 
-### Components
+## Results:
 
-1. **Envoy Gateway** (`v1.6.0`)
-   - Kubernetes Gateway API implementation
-   - Manages Envoy Proxy lifecycle
-   - Configures distributed rate limiting via `BackendTrafficPolicy`
+1. **Precision Rate Limiting**
+   - Actual vs expected block rates differ by only **1-2%**
+   - Demonstrates excellent precision for distributed rate limiting
+   - Redis-backed counters provide strong consistency
 
-2. **Envoy Proxy** (Data Plane)
-   - Deployed as part of Gateway class
-   - Enforces rate limits on incoming traffic
-   - Forwards rate limit checks to external rate limit service
-   - 3 replicas with 500m-2000m CPU, 512Mi-1Gi memory
+2. **Predictable Performance**
+   - **Average latency: 4.28ms** (minimal overhead from rate limiting)
+   - **P95: 5.39ms**, **P99: 7.18ms** (consistent tail latency)
+   - Rate limit checks add negligible latency
 
-3. **Rate Limit Service**
-   - Envoy rate limit daemon (deployed by Envoy Gateway)
-   - Uses Redis as a distributed counter backend
-   - 3 replicas with 500m-1500m CPU, 256Mi-512Mi memory
-   - 20ms timeout with `failClosed: false` (fail-open mode)
-
-4. **Redis Backend**
-   - AWS ElastiCache Serverless Redis
-   - Provides distributed rate limiting state
-   - TLS-enabled connection
-   - Location: `envoy-ratelimit-redis-pr7hih.serverless.use1.cache.amazonaws.com:6379`
-
-5. **Backend Services**
-   - Sample Kotlin backend service (8 replicas)
-   - Serves as the upstream service being protected
-   - Integrated with Datadog APM for observability
-
-6. **k6 Load Testing**
-   - Grafana k6 for load generation
-   - 6 concurrent scenarios testing different rate limit rules
-   - ~2,914 RPS aggregate load
-
-7. **Observability Stack**
-   - Datadog Agent for metrics, traces, and logs
-   - OpenMetrics integration for Envoy proxy metrics
-   - Custom dashboards for rate limit visualization
-
-### Traffic Flow
-
-1. Client sends request to Envoy Proxy
-2. Envoy Proxy extracts headers (`x-user-id`, `x-user-tenant-id`)
-3. Envoy forwards to Rate Limit Service for decision
-4. Rate Limit Service checks/increments counter in Redis
-5. If under limit → request forwarded to backend (HTTP 200)
-6. If over limit → request rejected (HTTP 429)
+3. **Zero Error Rate**
+   - No failed requests (excluding intentional 429s)
+   - Current System Configuration handles **~3,000 RPS** without issues
+   - Fail-open configuration (`failClosed: false`) ensures availability
+   - 3 Envoy Proxy replicas + 3 Rate Limit Service replicas
+   - Efficiently handled 174k+ requests over 60 seconds
 
 ---
 
@@ -183,43 +149,37 @@ The k6 test suite is designed to validate rate limiting **precision** across var
 **Total Load:** ~2,914 requests/second  
 **Total Requests:** ~174,724 over 60 seconds
 
-### Scenario Breakdown (all run simultaneously)
+### Scenario Breakdown
 
 #### Scenario A: Unique Users (Normal Traffic)
 **Setup:** 25 unique `tenant/user` pairs, each sending 38 RPS  
 **Limit:** 40 RPS per user, 40 RPS per tenant  
 **Expected:** ✅ All ALLOWED (under limit)  
-**Purpose:** Baseline validation that normal traffic flows correctly
 
 #### Scenario B: Unique Users (High Traffic)
 **Setup:** 40 unique `tenant/user` pairs, each sending 45 RPS  
 **Limit:** 40 RPS per user  
 **Expected:** ⚠️ 11.11% BLOCKED (5 RPS excess / 45 RPS = 11.11%)  
-**Purpose:** Validate precise per-user limiting with unique identifiers
 
 #### Scenario C: Shared Tenant (Low Traffic, Many Users)
 **Setup:** 19 users sharing 1 tenant, each sending 2 RPS (38 RPS total)  
 **Limit:** 40 RPS per tenant  
 **Expected:** ✅ All ALLOWED (under tenant limit)  
-**Purpose:** Validate tenant aggregation with distributed load
 
 #### Scenario D: Shared Tenant (High Traffic, Few Users)
 **Setup:** 2 users sharing 1 tenant, each sending 19 RPS (38 RPS total)  
 **Limit:** 40 RPS per tenant  
 **Expected:** ✅ All ALLOWED (under tenant limit)  
-**Purpose:** Validate tenant aggregation with concentrated load
 
 #### Scenario E: Shared Tenant (Over Limit, Many Users)
 **Setup:** 11 users sharing 1 tenant, each sending 4 RPS (44 RPS total)  
 **Limit:** 40 RPS per tenant  
 **Expected:** ⚠️ 9.09% BLOCKED (4 RPS excess / 44 RPS = 9.09%)  
-**Purpose:** Validate tenant-level limiting with distributed excess
 
 #### Scenario F: Shared Tenant (Over Limit, Few Users)
 **Setup:** 4 users sharing 1 tenant, each sending 11 RPS (44 RPS total)  
 **Limit:** 40 RPS per tenant  
 **Expected:** ⚠️ 9.09% BLOCKED (4 RPS excess / 44 RPS = 9.09%)  
-**Purpose:** Validate tenant-level limiting with concentrated excess
 
 ### Test Implementation Highlights
 
@@ -230,7 +190,7 @@ The k6 script uses:
 
 ---
 
-## Test Results & Insights
+## Detailed Tests Results
 
 ### Performance Summary
 
@@ -342,34 +302,6 @@ STATUS: ✅ AS EXPECTED
 
 ---
 
-### Key Insights
-
-1. **High Precision Rate Limiting**
-   - Actual vs expected block rates differ by only **1-2%**
-   - Demonstrates excellent precision for distributed rate limiting
-   - Redis-backed counters provide strong consistency
-
-2. **Predictable Performance**
-   - **Average latency: 4.28ms** (minimal overhead from rate limiting)
-   - **P95: 5.39ms**, **P99: 7.18ms** (consistent tail latency)
-   - Rate limit checks add negligible latency
-
-3. **Zero Error Rate**
-   - No failed requests (excluding intentional 429s)
-   - Current System Configuration handles **~3,000 RPS** without issues
-   - Fail-open configuration (`failClosed: false`) ensures availability
-
-4. **Scalability**
-   - 3 Envoy Proxy replicas + 3 Rate Limit Service replicas
-   - Efficiently handles 174k+ requests over 60 seconds
-   - Linear scalability potential with additional replicas
-
-5. **Header-Based Limiting**
-   - **Distinct type** (per-user, per-tenant) works as expected
-   - Clean separation between different limiting strategies
-
----
-
 ### Reproducing The Test
 0. **(Prerequisites)** The required AWS infrastructure (VPC, subnets, ElastiCache Redis, EKS cluster) is provisioned via Terraform configurations located in [`infra/terraform/`](infra/terraform/).
 
@@ -424,4 +356,4 @@ My cat ate the license.
 - [Datadog](https://www.datadoghq.com/) for observability integration
 
 bye  
-![alt text](.doc-assets/image.png)
+![robson](https://github.com/user-attachments/assets/caa65e0c-6cc8-4349-a628-19c3c6140535)
