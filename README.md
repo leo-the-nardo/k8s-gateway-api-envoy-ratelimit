@@ -422,3 +422,6 @@ My cat ate the license.
 - [Envoy Gateway](https://gateway.envoyproxy.io/) for Kubernetes Gateway API implementation
 - [Grafana k6](https://k6.io/) for load testing capabilities
 - [Datadog](https://www.datadoghq.com/) for observability integration
+
+bye  
+![alt text](.doc-assets/image.png)
