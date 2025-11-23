@@ -1,0 +1,37 @@
+---
+# client -> envoyproxy(inside eks) -> external domain
+# in this example, external-domain.example.com host header matching points to envoyproxy pointing to httpbin.org
+# As we dont have a k8s service to point to, a Backend resource is required for external endpoint
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: Backend
+metadata:
+  name: external-domain-sample-backend
+  namespace: default
+spec:
+  endpoints:
+    - fqdn:
+        hostname: httpbin.org
+        port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: external-domain-sample-route
+spec:
+  parentRefs:
+    - name: eg
+  hostnames:
+    - "external-domain.example.com"
+  rules:
+    - backendRefs:
+        - group: gateway.envoyproxy.io
+          kind: Backend
+          name: external-domain-sample-backend
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            hostname: httpbin.org
+      matches:
+        - path:
+            type: PathPrefix
+            value: /

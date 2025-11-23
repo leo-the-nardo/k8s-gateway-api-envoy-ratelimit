@@ -1,0 +1,79 @@
+# Envoy Gateway Helm Chart Values
+# Configuration for high-performance testing (50k requests/second)
+# helm upgrade --install eg oci://docker.io/envoyproxy/gateway-helm --version v1.6.0  -n envoy-gateway-system -f k8s-manifests/envoy-helm/envoy-gateway-values.yaml
+config:
+  envoyGateway:
+    podAnnotations:
+      ad.datadoghq.com/envoy-gateway.check_names: '["openmetrics"]'
+      ad.datadoghq.com/envoy-gateway.init_configs: '[{}]'
+      ad.datadoghq.com/envoy-gateway.instances: |
+        [
+          {
+            "openmetrics_endpoint": "http://%%host%%:19001/metrics",
+            "namespace": "envoy",
+            "metrics": ["*"]
+          }
+        ]
+    extensionApis:
+      enableBackend: true
+    logging:
+      level:
+        default: debug  # Reduced logging overhead for high throughput
+    # Rate limit backend configuration
+    rateLimit:
+      backend:
+        type: Redis
+        #failclosed -> Envoy lets the traffic pass if the rate limit service is unavailable
+        failClosed: false
+        timeout: 20ms
+        redis:
+          url: "envoy-ratelimit-redis-pr7hih.serverless.use1.cache.amazonaws.com:6379"    # Kubernetes provider configuration for rate limit deployment
+    provider:
+      kubernetes:
+        rateLimitDeployment:
+          replicas: 3
+          container:
+            env:
+              - name: REDIS_TLS
+                value: "true"
+              - name: REDIS_TLS_SKIP_HOSTNAME_VERIFICATION
+                value: "true"
+              - name: REDIS_AUTH
+                valueFrom:
+                  secretKeyRef:
+                    name: ratelimit-redis-creds
+                    key: REDIS_PASSWORD
+              # - name: REDIS_URL
+              #   valueFrom:
+              #     secretKeyRef:
+              #       name: ratelimit-redis-creds
+              #       key: REDIS_URL
+            resources:
+              requests:
+                cpu: "500m"
+                memory: "256Mi"
+              limits:
+                cpu: "1500m"
+                memory: "512Mi"
+
+deployment:
+  replicas: 5  # Start with 5 replicas for 50k req/s (~10k req/s per replica)
+  envoyGateway:
+    resources:
+      limits:
+        cpu: "4000m"      # 4 CPU cores per pod
+        memory: "4Gi"     # 4GB RAM per pod
+      requests:
+        cpu: "2000m"      # 2 CPU cores guaranteed
+        memory: "2Gi"     # 2GB RAM guaranteed
+
+autoscaling:
+  enabled: true
+  minReplicas: 5          # Minimum replicas for baseline capacity
+  maxReplicas: 20         # Can scale up to 20 replicas if needed
+  targetCPUUtilizationPercentage: 70  # Scale when CPU exceeds 70%
+service:
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "19001"
+    prometheus.io/path: "/metrics"

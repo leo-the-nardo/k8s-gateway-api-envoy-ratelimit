@@ -1,0 +1,510 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k6-complex-rules-env
+data:
+  script.js: |
+    import http from 'k6/http';
+    import { check, fail, group } from 'k6';
+    import { scenario } from 'k6/execution';
+    import { Rate, Counter } from 'k6/metrics';
+
+    // ... (Environment variables and metrics definitions remain the same) ...
+
+    // -----------------------------------------------------------------------
+    // 5. EXECUTORS
+    // -----------------------------------------------------------------------
+    export function runUniquePairsOK(data) {
+      group('Scenario A: Unique 200 OK (Expect 100% Success)', function () {
+        const res = makeReq(getPair(data.uniqueOK), 'unique_pairs_ok');
+        if (res.status === 200) scenarioA_200.add(1);
+        else if (res.status === 429) scenarioA_429.add(1);
+        else scenarioA_other.add(1);
+        check(res, { 'Status is 200 OK': r => r.status === 200 });
+      });
+    }
+
+    export function runUniquePairs429(data) {
+      group('Scenario B: Unique 429 (Expect ~11% Rate Limited)', function () {
+        const res = makeReq(getPair(data.unique429), 'unique_pairs_429');
+        if (res.status === 200) scenarioB_200.add(1);
+        else if (res.status === 429) scenarioB_429.add(1);
+        else scenarioB_other.add(1);
+        rate429_B.add(res.status === 429);
+      });
+    }
+
+    export function runSharedLowRateOK(data) {
+      group('Scenario C: Shared Low 200 OK (Expect 100% Success)', function () {
+        const res = makeReq(getPair(data.sharedLowOK), 'shared_low_rate_ok');
+        if (res.status === 200) scenarioC_200.add(1);
+        else if (res.status === 429) scenarioC_429.add(1);
+        else scenarioC_other.add(1);
+        check(res, { 'Status is 200 OK': r => r.status === 200 });
+      });
+    }
+
+    export function runSharedHighRateOK(data) {
+      group('Scenario D: Shared High 200 OK (Expect 100% Success)', function () {
+        const res = makeReq(getPair(data.sharedHighOK), 'shared_high_rate_ok');
+        if (res.status === 200) scenarioD_200.add(1);
+        else if (res.status === 429) scenarioD_429.add(1);
+        else scenarioD_other.add(1);
+        check(res, { 'Status is 200 OK': r => r.status === 200 });
+      });
+    }
+
+    export function runSharedLowRate429(data) {
+      group('Scenario E: Shared Low 429 (Expect ~9% Rate Limited)', function () {
+        const res = makeReq(getPair(data.sharedLow429), 'shared_low_rate_429');
+        if (res.status === 200) scenarioE_200.add(1);
+        else if (res.status === 429) scenarioE_429.add(1);
+        else scenarioE_other.add(1);
+        rate429_E.add(res.status === 429);
+      });
+    }
+
+    export function runSharedHighRate429(data) {
+      group('Scenario F: Shared High 429 (Expect ~9% Rate Limited)', function () {
+        const res = makeReq(getPair(data.sharedHigh429), 'shared_high_rate_429');
+        if (res.status === 200) scenarioF_200.add(1);
+        else if (res.status === 429) scenarioF_429.add(1);
+        else scenarioF_other.add(1);
+        rate429_F.add(res.status === 429);
+      });
+    }
+
+    // -----------------------------------------------------------------------
+    // 1. ENVIRONMENT VARIABLES
+    // -----------------------------------------------------------------------
+    const BASE_URL = __ENV.TARGET_URL;
+    const HOST_HEADER = __ENV.TARGET_HOST;
+    const DURATION = __ENV.TEST_DURATION || '45s';
+    
+    // Expected Drop Rates
+    const EXPECTED_B = parseFloat(__ENV.EXPECTED_DROP_RATE_B || '0.1111'); // ~11.11%
+    const EXPECTED_E = parseFloat(__ENV.EXPECTED_DROP_RATE_E || '0.0909'); // ~9.09%
+    const EXPECTED_F = parseFloat(__ENV.EXPECTED_DROP_RATE_F || '0.0909'); // ~9.09%
+
+    if (!BASE_URL || !HOST_HEADER) {
+      fail('ERROR: TARGET_URL and TARGET_HOST environment variables must be set.');
+    }
+
+    // -----------------------------------------------------------------------
+    // 2. METRICS
+    // -----------------------------------------------------------------------
+    // Scenario A: Unique 200 OK (25 pairs @ 38 RPS = 950 total)
+    const scenarioA_200 = new Counter('A_received_200');
+    const scenarioA_429 = new Counter('A_received_429');
+    const scenarioA_other = new Counter('A_received_other');
+    const scenarioA_expected_200 = new Counter('A_expected_200');
+    const scenarioA_expected_429 = new Counter('A_expected_429');
+    const scenarioA_diff_200 = new Counter('A_diff_200');
+    const scenarioA_diff_429 = new Counter('A_diff_429');
+    
+    // Scenario B: Unique 429 (40 pairs @ 45 RPS = 1800 total, ~11% rate limited)
+    const scenarioB_200 = new Counter('B_received_200');
+    const scenarioB_429 = new Counter('B_received_429');
+    const scenarioB_other = new Counter('B_received_other');
+    const rate429_B = new Rate('B_rate_429');
+    const scenarioB_expected_200 = new Counter('B_expected_200');
+    const scenarioB_expected_429 = new Counter('B_expected_429');
+    const scenarioB_diff_200 = new Counter('B_diff_200');
+    const scenarioB_diff_429 = new Counter('B_diff_429');
+    
+    // Scenario C: Shared Low 200 OK (19 users @ 2 RPS = 38 total)
+    const scenarioC_200 = new Counter('C_received_200');
+    const scenarioC_429 = new Counter('C_received_429');
+    const scenarioC_other = new Counter('C_received_other');
+    const scenarioC_expected_200 = new Counter('C_expected_200');
+    const scenarioC_expected_429 = new Counter('C_expected_429');
+    const scenarioC_diff_200 = new Counter('C_diff_200');
+    const scenarioC_diff_429 = new Counter('C_diff_429');
+    
+    // Scenario D: Shared High 200 OK (2 users @ 19 RPS = 38 total)
+    const scenarioD_200 = new Counter('D_received_200');
+    const scenarioD_429 = new Counter('D_received_429');
+    const scenarioD_other = new Counter('D_received_other');
+    const scenarioD_expected_200 = new Counter('D_expected_200');
+    const scenarioD_expected_429 = new Counter('D_expected_429');
+    const scenarioD_diff_200 = new Counter('D_diff_200');
+    const scenarioD_diff_429 = new Counter('D_diff_429');
+    
+    // Scenario E: Shared Low 429 (11 users @ 4 RPS = 44 total, ~9% rate limited)
+    const scenarioE_200 = new Counter('E_received_200');
+    const scenarioE_429 = new Counter('E_received_429');
+    const scenarioE_other = new Counter('E_received_other');
+    const rate429_E = new Rate('E_rate_429');
+    const scenarioE_expected_200 = new Counter('E_expected_200');
+    const scenarioE_expected_429 = new Counter('E_expected_429');
+    const scenarioE_diff_200 = new Counter('E_diff_200');
+    const scenarioE_diff_429 = new Counter('E_diff_429');
+    
+    // Scenario F: Shared High 429 (4 users @ 11 RPS = 44 total, ~9% rate limited)
+    const scenarioF_200 = new Counter('F_received_200');
+    const scenarioF_429 = new Counter('F_received_429');
+    const scenarioF_other = new Counter('F_received_other');
+    const rate429_F = new Rate('F_rate_429');
+    const scenarioF_expected_200 = new Counter('F_expected_200');
+    const scenarioF_expected_429 = new Counter('F_expected_429');
+    const scenarioF_diff_200 = new Counter('F_diff_200');
+    const scenarioF_diff_429 = new Counter('F_diff_429');
+
+    // -----------------------------------------------------------------------
+    // 3. CONFIGURATION
+    // -----------------------------------------------------------------------
+    export const options = {
+      scenarios: {
+        // --- A: 25 Unique Pairs @ 38 RPS (Total 950) -> Expect 200 ---
+        unique_pairs_ok: {
+          executor: 'constant-arrival-rate',
+          exec: 'runUniquePairsOK',
+          rate: 950, 
+          timeUnit: '1s',
+          duration: DURATION,
+          preAllocatedVUs: 50,
+          maxVUs: 300,
+        },
+
+        // --- B: 40 Unique Pairs @ 45 RPS (Total 1800) -> Expect ~11% 429 ---
+        unique_pairs_429: {
+          executor: 'constant-arrival-rate',
+          exec: 'runUniquePairs429',
+          rate: 1800,
+          timeUnit: '1s',
+          duration: DURATION,
+          preAllocatedVUs: 100,
+          maxVUs: 400,
+        },
+
+        // --- C: 19 Users, Shared Tenant A @ 2 RPS (Total 38) -> Expect 200 ---
+        shared_low_rate_ok: {
+          executor: 'constant-arrival-rate',
+          exec: 'runSharedLowRateOK',
+          rate: 38, 
+          timeUnit: '1s',
+          duration: DURATION,
+          preAllocatedVUs: 20,
+          maxVUs: 100,
+        },
+
+        // --- D: 2 Users, Shared Tenant B @ 19 RPS (Total 38) -> Expect 200 ---
+        shared_high_rate_ok: {
+          executor: 'constant-arrival-rate',
+          exec: 'runSharedHighRateOK',
+          rate: 38, 
+          timeUnit: '1s',
+          duration: DURATION,
+          preAllocatedVUs: 10,
+          maxVUs: 100,
+        },
+
+        // --- E: 11 Users, Shared Tenant C @ 4 RPS (Total 44) -> Expect ~9% 429 ---
+        shared_low_rate_429: {
+          executor: 'constant-arrival-rate',
+          exec: 'runSharedLowRate429',
+          rate: 44,
+          timeUnit: '1s',
+          duration: DURATION,
+          preAllocatedVUs: 20,
+          maxVUs: 100,
+        },
+
+        // --- F: 4 Users, Shared Tenant D @ 11 RPS (Total 44) -> Expect ~9% 429 ---
+        shared_high_rate_429: {
+          executor: 'constant-arrival-rate',
+          exec: 'runSharedHighRate429',
+          rate: 44,
+          timeUnit: '1s',
+          duration: DURATION,
+          preAllocatedVUs: 10,
+          maxVUs: 100,
+        },
+      },
+      thresholds: {
+        // Force breakdown by scenario in native summary
+        'http_reqs{scenario:unique_pairs_ok}': ['count>=0'],
+        'http_req_failed{scenario:unique_pairs_ok}': ['rate>=0'],
+        
+        'http_reqs{scenario:unique_pairs_429}': ['count>=0'],
+        'http_req_failed{scenario:unique_pairs_429}': ['rate>=0'],
+        
+        'http_reqs{scenario:shared_low_rate_ok}': ['count>=0'],
+        'http_req_failed{scenario:shared_low_rate_ok}': ['rate>=0'],
+        
+        'http_reqs{scenario:shared_high_rate_ok}': ['count>=0'],
+        'http_req_failed{scenario:shared_high_rate_ok}': ['rate>=0'],
+        
+        'http_reqs{scenario:shared_low_rate_429}': ['count>=0'],
+        'http_req_failed{scenario:shared_low_rate_429}': ['rate>=0'],
+        
+        'http_reqs{scenario:shared_high_rate_429}': ['count>=0'],
+        'http_req_failed{scenario:shared_high_rate_429}': ['rate>=0'],
+      },
+      summaryTrendStats: ['min', 'avg', 'med', 'max', 'p(90)', 'p(95)', 'p(99)'],
+    };
+
+    // -----------------------------------------------------------------------
+    // 4. DATA SETUP
+    // -----------------------------------------------------------------------
+    export function setup() {
+      const gen = (p, i) => `${p}_${i}`;
+      const duration = parseFloat(DURATION);
+      
+      // Calculate expected counts
+      const expectedA_total = Math.round(950 * duration);
+      const expectedB_total = Math.round(1800 * duration);
+      const expectedC_total = Math.round(38 * duration);
+      const expectedD_total = Math.round(38 * duration);
+      const expectedE_total = Math.round(44 * duration);
+      const expectedF_total = Math.round(44 * duration);
+      
+      // Set expected values
+      scenarioA_expected_200.add(expectedA_total);
+      scenarioA_expected_429.add(0);
+      
+      scenarioB_expected_200.add(Math.round(expectedB_total * (1 - EXPECTED_B)));
+      scenarioB_expected_429.add(Math.round(expectedB_total * EXPECTED_B));
+      
+      scenarioC_expected_200.add(expectedC_total);
+      scenarioC_expected_429.add(0);
+      
+      scenarioD_expected_200.add(expectedD_total);
+      scenarioD_expected_429.add(0);
+      
+      scenarioE_expected_200.add(Math.round(expectedE_total * (1 - EXPECTED_E)));
+      scenarioE_expected_429.add(Math.round(expectedE_total * EXPECTED_E));
+      
+      scenarioF_expected_200.add(Math.round(expectedF_total * (1 - EXPECTED_F)));
+      scenarioF_expected_429.add(Math.round(expectedF_total * EXPECTED_F));
+      
+      return {
+        uniqueOK: Array.from({ length: 25 }, (_, i) => ({ t: gen('t_ok', i), u: gen('u_ok', i) })),
+        unique429: Array.from({ length: 40 }, (_, i) => ({ t: gen('t_high', i), u: gen('u_high', i) })),
+        sharedLowOK: Array.from({ length: 19 }, (_, i) => ({ t: 'SHARED_TENANT_A', u: gen('u_sh_A', i) })),
+        sharedHighOK: Array.from({ length: 2 }, (_, i) => ({ t: 'SHARED_TENANT_B', u: gen('u_sh_B', i) })),
+        sharedLow429: Array.from({ length: 11 }, (_, i) => ({ t: 'SHARED_TENANT_C', u: gen('u_sh_C', i) })),
+        sharedHigh429: Array.from({ length: 4 }, (_, i) => ({ t: 'SHARED_TENANT_D', u: gen('u_sh_D', i) })),
+      };
+    }
+
+    function getPair(list) {
+      return list[scenario.iterationInTest % list.length];
+    }
+
+    function makeReq(pair, tag) {
+      return http.get(BASE_URL, {
+        headers: {
+          'Host': HOST_HEADER,
+          'x-user-id': pair.u,
+          'x-user-tenant-id': pair.t,
+        },
+        tags: { scenario: tag }
+      });
+    }
+
+    // -----------------------------------------------------------------------
+    // 6. TEARDOWN
+    // -----------------------------------------------------------------------
+    export function teardown(data) {
+      // No-op
+    }
+
+    // -----------------------------------------------------------------------
+    // 7. REPORTING - EXECUTIVE SUMMARY (GIVEN-WHEN-THEN)
+    // -----------------------------------------------------------------------
+    export function handleSummary(data) {
+      const duration = data.state.testRunDurationMs / 1000;
+      
+      function getVal(name, field = 'count') {
+        return data.metrics[name] ? data.metrics[name].values[field] : 0;
+      }
+      
+      function fmt(num) {
+        return Math.round(num).toLocaleString();
+      }
+
+      let out = '\n';
+      out += '================================================================================\n';
+      out += '                        RATE LIMITING VALIDATION REPORT\n';
+      out += '================================================================================\n\n';
+      
+      out += 'TEST OVERVIEW\n';
+      out += '-------------\n';
+      out += 'Verifying API Gateway rate limits using a Given-When-Then format.\n\n';
+
+      const scenarios = [
+        {
+          name: 'A: Unique Users (Normal Traffic)',
+          given: '25 unique tenant/user pairs',
+          when:  'sending 38 RPS each (Total: 950 RPS)',
+          then:  'All requests should be ALLOWED (200 OK)',
+          pfx: 'A',
+          type: 'ok'
+        },
+        {
+          name: 'B: Unique Users (High Traffic)',
+          given: '40 unique tenant/user pairs',
+          when:  'sending 45 RPS each (Limit is 40 RPS)',
+          then:  'Excess traffic (~11%) should be BLOCKED (429)',
+          pfx: 'B',
+          type: 'limit'
+        },
+        {
+          name: 'C: Shared Tenant (Low Traffic)',
+          given: '19 users sharing one tenant',
+          when:  'sending 2 RPS each (Total: 38 RPS)',
+          then:  'All requests should be ALLOWED (200 OK)',
+          pfx: 'C',
+          type: 'ok'
+        },
+        {
+          name: 'D: Shared Tenant (High Traffic)',
+          given: '2 users sharing one tenant',
+          when:  'sending 19 RPS each (Total: 38 RPS)',
+          then:  'All requests should be ALLOWED (200 OK)',
+          pfx: 'D',
+          type: 'ok'
+        },
+        {
+          name: 'E: Shared Tenant (Over Limit 1)',
+          given: '11 users sharing one tenant',
+          when:  'sending 4 RPS each (Total: 44 RPS, Limit is 40)',
+          then:  'Excess traffic (~9%) should be BLOCKED (429)',
+          pfx: 'E',
+          type: 'limit'
+        },
+        {
+          name: 'F: Shared Tenant (Over Limit 2)',
+          given: '4 users sharing one tenant',
+          when:  'sending 11 RPS each (Total: 44 RPS, Limit is 40)',
+          then:  'Excess traffic (~9%) should be BLOCKED (429)',
+          pfx: 'F',
+          type: 'limit'
+        }
+      ];
+
+      scenarios.forEach(s => {
+        const act200 = getVal(`${s.pfx}_received_200`);
+        const act429 = getVal(`${s.pfx}_received_429`);
+        const exp200 = getVal(`${s.pfx}_expected_200`);
+        const exp429 = getVal(`${s.pfx}_expected_429`);
+        const total = act200 + act429;
+        const rate429 = (total > 0) ? (act429 / total * 100) : 0;
+        const expRate = (exp200 + exp429 > 0) ? (exp429 / (exp200 + exp429) * 100) : 0;
+        
+        out += `SCENARIO ${s.name}\n`;
+        out += `--------------------------------------------------------------------------------\n`;
+        out += `   GIVEN: ${s.given}\n`;
+        out += `   WHEN:  ${s.when}\n`;
+        out += `   THEN:  ${s.then}\n\n`;
+        
+        out += `   ACTUAL RESULT:\n`;
+        if (s.type === 'limit') {
+             out += `   - Blocked: ${fmt(act429)} requests (${rate429.toFixed(2)}%)\n`;
+             out += `   - Allowed: ${fmt(act200)} requests\n`;
+             out += `   - Target:  ~${expRate.toFixed(0)}% blocked\n`;
+        } else {
+             out += `   - Allowed: ${fmt(act200)} requests\n`;
+             out += `   - Blocked: ${fmt(act429)} requests\n`;
+        }
+        
+        // Simple pass/fail indicator based on expectations
+        let passed = false;
+        if (s.type === 'ok') {
+            passed = (act429 === 0);
+        } else {
+            // Loose check for existence of 429s
+            passed = (act429 > 0); 
+        }
+        
+        out += `   \n   STATUS: ${passed ? '✅ AS EXPECTED' : '❌ UNEXPECTED'}\n`;
+        out += `\n`;
+      });
+
+      out += '================================================================================\n';
+      out += 'OVERALL PERFORMANCE\n';
+      out += '-------------------\n';
+      const httpDuration = data.metrics.http_req_duration;
+      if (httpDuration && httpDuration.values) {
+        out += `   Average Latency: ${httpDuration.values.avg.toFixed(2)} ms\n`;
+        out += `   95th Percentile: ${httpDuration.values['p(95)'].toFixed(2)} ms\n`;
+        out += `   99th Percentile: ${httpDuration.values['p(99)'].toFixed(2)} ms\n`;
+        out += `   Max Latency:     ${httpDuration.values.max.toFixed(2)} ms\n`;
+      }
+      
+      // Calculate total non-200/429 requests
+      let totalOther = 0;
+      let totalReqs = 0;
+      scenarios.forEach(s => {
+         const act200 = getVal(`${s.pfx}_received_200`);
+         const act429 = getVal(`${s.pfx}_received_429`);
+         const other = getVal(`${s.pfx}_received_other`); // We need to make sure this metric exists or is calculated
+         // Note: In the current setup, we don't have a direct 'received_other' metric exposed in the same way 
+         // unless we explicitly added it. But we did add 'scenarioX_other' counters in the script.
+         // Let's assume we can get it via the naming convention if we exposed it.
+         // Actually, looking at the script, we defined 'A_received_other' etc.
+         // So we can retrieve it.
+         
+         // However, getVal uses data.metrics[name].
+         // We need to ensure 'A_received_other' is in the metrics.
+         // It is defined as a Counter in the script.
+         
+         const valOther = getVal(`${s.pfx}_received_other`);
+         totalOther += valOther;
+         totalReqs += (act200 + act429 + valOther);
+      });
+      
+      const errorRate = (totalReqs > 0) ? (totalOther / totalReqs * 100).toFixed(4) : '0.0000';
+      
+      out += '\nERROR ANALYSIS (Non-200/429 Responses)\n';
+      out += '--------------------------------------\n';
+      out += `   Total Requests:    ${fmt(totalReqs)}\n`;
+      out += `   Failed/Other:      ${fmt(totalOther)}\n`;
+      out += `   Error Rate:        ${errorRate}%\n`;
+      
+      out += '================================================================================\n';
+
+      return {
+        'stdout': out,
+      };
+    }
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: k6-runner-env
+spec:
+  template:
+    spec:
+      containers:
+      - name: k6
+        image: grafana/k6:latest
+        command: ["k6", "run", "/scripts/script.js"]
+        # -------------------------------------------------
+        # CONFIGURE YOUR TEST HERE
+        # -------------------------------------------------
+        env:
+          - name: TARGET_HOST
+            value: "www.example.com"
+          - name: TARGET_URL
+            value: "http://envoy-default-eg-e41e7b31.envoy-gateway-system.svc.cluster.local/"
+          - name: TEST_DURATION
+            value: "1800s"
+          # Expected Drop Rates
+          - name: EXPECTED_DROP_RATE_B
+            value: "0.1111" # ~11.11%
+          - name: EXPECTED_DROP_RATE_E
+            value: "0.0909" # ~9.09%
+          - name: EXPECTED_DROP_RATE_F
+            value: "0.0909" # ~9.09%
+        volumeMounts:
+        - name: script-vol
+          mountPath: /scripts
+      restartPolicy: Never
+      volumes:
+      - name: script-vol
+        configMap:
+          name: k6-complex-rules-env
+  backoffLimit: 0

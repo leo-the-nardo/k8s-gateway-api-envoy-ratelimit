@@ -1,0 +1,605 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+     execution: local
+        script: /scripts/script.js
+        output: -
+
+     scenarios: (100.00%) 6 scenarios, 1100 max VUs, 1m30s max duration (incl. graceful stop):
+              * shared_high_rate_429: 44.00 iterations/s for 1m0s (maxVUs: 10-100, exec: runSharedHighRate429, gracefulStop: 30s)
+              * shared_high_rate_ok: 38.00 iterations/s for 1m0s (maxVUs: 10-100, exec: runSharedHighRateOK, gracefulStop: 30s)
+              * shared_low_rate_429: 44.00 iterations/s for 1m0s (maxVUs: 20-100, exec: runSharedLowRate429, gracefulStop: 30s)
+              * shared_low_rate_ok: 38.00 iterations/s for 1m0s (maxVUs: 20-100, exec: runSharedLowRateOK, gracefulStop: 30s)
+              * unique_pairs_429: 1800.00 iterations/s for 1m0s (maxVUs: 100-400, exec: runUniquePairs429, gracefulStop: 30s)
+              * unique_pairs_ok: 950.00 iterations/s for 1m0s (maxVUs: 50-300, exec: runUniquePairsOK, gracefulStop: 30s)
+
+
+running (0m00.9s), 0018/0212 VUs, 2605 complete and 0 interrupted iterations
+shared_high_rate_429   [   2% ] 000/010 VUs  0m00.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [   2% ] 000/010 VUs  0m00.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [   2% ] 000/020 VUs  0m00.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [   2% ] 000/020 VUs  0m00.9s/1m0s  38.00 iters/s
+unique_pairs_429       [   2% ] 011/101 VUs  0m00.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [   2% ] 006/051 VUs  0m00.9s/1m0s  950.00 iters/s
+
+running (0m01.9s), 0013/0212 VUs, 5524 complete and 0 interrupted iterations
+shared_high_rate_429   [   3% ] 000/010 VUs  0m01.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [   3% ] 000/010 VUs  0m01.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [   3% ] 000/020 VUs  0m01.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [   3% ] 000/020 VUs  0m01.9s/1m0s  38.00 iters/s
+unique_pairs_429       [   3% ] 009/101 VUs  0m01.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [   3% ] 004/051 VUs  0m01.9s/1m0s  950.00 iters/s
+
+running (0m02.9s), 0013/0212 VUs, 8437 complete and 0 interrupted iterations
+shared_high_rate_429   [   5% ] 000/010 VUs  0m02.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [   5% ] 000/010 VUs  0m02.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [   5% ] 000/020 VUs  0m02.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [   5% ] 000/020 VUs  0m02.9s/1m0s  38.00 iters/s
+unique_pairs_429       [   5% ] 008/101 VUs  0m02.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [   5% ] 006/051 VUs  0m02.9s/1m0s  950.00 iters/s
+
+running (0m03.9s), 0012/0212 VUs, 11353 complete and 0 interrupted iterations
+shared_high_rate_429   [   7% ] 000/010 VUs  0m03.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [   7% ] 000/010 VUs  0m03.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [   7% ] 000/020 VUs  0m03.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [   7% ] 000/020 VUs  0m03.9s/1m0s  38.00 iters/s
+unique_pairs_429       [   7% ] 008/101 VUs  0m03.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [   7% ] 004/051 VUs  0m03.9s/1m0s  950.00 iters/s
+
+running (0m04.9s), 0011/0212 VUs, 14265 complete and 0 interrupted iterations
+shared_high_rate_429   [   8% ] 000/010 VUs  0m04.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [   8% ] 000/010 VUs  0m04.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [   8% ] 000/020 VUs  0m04.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [   8% ] 000/020 VUs  0m04.9s/1m0s  38.00 iters/s
+unique_pairs_429       [   8% ] 007/101 VUs  0m04.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [   8% ] 005/051 VUs  0m04.9s/1m0s  950.00 iters/s
+
+running (0m05.9s), 0012/0212 VUs, 17180 complete and 0 interrupted iterations
+shared_high_rate_429   [  10% ] 000/010 VUs  0m05.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  10% ] 000/010 VUs  0m05.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  10% ] 000/020 VUs  0m05.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  10% ] 000/020 VUs  0m05.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  10% ] 009/101 VUs  0m05.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  10% ] 004/051 VUs  0m05.9s/1m0s  950.00 iters/s
+
+running (0m06.9s), 0011/0212 VUs, 20094 complete and 0 interrupted iterations
+shared_high_rate_429   [  12% ] 000/010 VUs  0m06.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  12% ] 000/010 VUs  0m06.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  12% ] 000/020 VUs  0m06.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  12% ] 000/020 VUs  0m06.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  12% ] 008/101 VUs  0m06.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  12% ] 005/051 VUs  0m06.9s/1m0s  950.00 iters/s
+
+running (0m07.9s), 0011/0212 VUs, 23009 complete and 0 interrupted iterations
+shared_high_rate_429   [  13% ] 000/010 VUs  0m07.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  13% ] 000/010 VUs  0m07.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  13% ] 000/020 VUs  0m07.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  13% ] 000/020 VUs  0m07.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  13% ] 008/101 VUs  0m07.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  13% ] 004/051 VUs  0m07.9s/1m0s  950.00 iters/s
+
+running (0m08.9s), 0011/0212 VUs, 25924 complete and 0 interrupted iterations
+shared_high_rate_429   [  15% ] 000/010 VUs  0m08.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  15% ] 000/010 VUs  0m08.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  15% ] 000/020 VUs  0m08.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  15% ] 000/020 VUs  0m08.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  15% ] 007/101 VUs  0m08.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  15% ] 004/051 VUs  0m08.9s/1m0s  950.00 iters/s
+
+running (0m09.9s), 0012/0212 VUs, 28836 complete and 0 interrupted iterations
+shared_high_rate_429   [  17% ] 000/010 VUs  0m09.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  17% ] 000/010 VUs  0m09.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  17% ] 000/020 VUs  0m09.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  17% ] 000/020 VUs  0m09.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  17% ] 008/101 VUs  0m09.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  17% ] 004/051 VUs  0m09.9s/1m0s  950.00 iters/s
+
+running (0m10.9s), 0013/0212 VUs, 31750 complete and 0 interrupted iterations
+shared_high_rate_429   [  18% ] 000/010 VUs  0m10.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  18% ] 000/010 VUs  0m10.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  18% ] 000/020 VUs  0m10.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  18% ] 000/020 VUs  0m10.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  18% ] 009/101 VUs  0m10.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  18% ] 004/051 VUs  0m10.9s/1m0s  950.00 iters/s
+
+running (0m11.9s), 0013/0212 VUs, 34664 complete and 0 interrupted iterations
+shared_high_rate_429   [  20% ] 000/010 VUs  0m11.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  20% ] 000/010 VUs  0m11.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  20% ] 000/020 VUs  0m11.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  20% ] 000/020 VUs  0m11.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  20% ] 009/101 VUs  0m11.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  20% ] 004/051 VUs  0m11.9s/1m0s  950.00 iters/s
+
+running (0m12.9s), 0015/0212 VUs, 37576 complete and 0 interrupted iterations
+shared_high_rate_429   [  22% ] 000/010 VUs  0m12.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  22% ] 000/010 VUs  0m12.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  22% ] 000/020 VUs  0m12.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  22% ] 000/020 VUs  0m12.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  22% ] 010/101 VUs  0m12.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  22% ] 005/051 VUs  0m12.9s/1m0s  950.00 iters/s
+
+running (0m13.9s), 0013/0212 VUs, 40491 complete and 0 interrupted iterations
+shared_high_rate_429   [  23% ] 000/010 VUs  0m13.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  23% ] 000/010 VUs  0m13.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  23% ] 000/020 VUs  0m13.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  23% ] 000/020 VUs  0m13.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  23% ] 008/101 VUs  0m13.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  23% ] 005/051 VUs  0m13.9s/1m0s  950.00 iters/s
+
+running (0m14.9s), 0014/0212 VUs, 43405 complete and 0 interrupted iterations
+shared_high_rate_429   [  25% ] 000/010 VUs  0m14.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  25% ] 000/010 VUs  0m14.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  25% ] 000/020 VUs  0m14.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  25% ] 000/020 VUs  0m14.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  25% ] 009/101 VUs  0m14.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  25% ] 005/051 VUs  0m14.9s/1m0s  950.00 iters/s
+
+running (0m15.9s), 0013/0212 VUs, 46320 complete and 0 interrupted iterations
+shared_high_rate_429   [  27% ] 000/010 VUs  0m15.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  27% ] 000/010 VUs  0m15.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  27% ] 000/020 VUs  0m15.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  27% ] 000/020 VUs  0m15.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  27% ] 008/101 VUs  0m15.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  27% ] 005/051 VUs  0m15.9s/1m0s  950.00 iters/s
+
+running (0m16.9s), 0013/0212 VUs, 49234 complete and 0 interrupted iterations
+shared_high_rate_429   [  28% ] 000/010 VUs  0m16.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  28% ] 000/010 VUs  0m16.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  28% ] 000/020 VUs  0m16.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  28% ] 000/020 VUs  0m16.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  28% ] 009/101 VUs  0m16.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  28% ] 004/051 VUs  0m16.9s/1m0s  950.00 iters/s
+
+running (0m17.9s), 0011/0212 VUs, 52149 complete and 0 interrupted iterations
+shared_high_rate_429   [  30% ] 000/010 VUs  0m17.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  30% ] 000/010 VUs  0m17.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  30% ] 000/020 VUs  0m17.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  30% ] 000/020 VUs  0m17.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  30% ] 007/101 VUs  0m17.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  30% ] 005/051 VUs  0m17.9s/1m0s  950.00 iters/s
+
+running (0m18.9s), 0014/0212 VUs, 55061 complete and 0 interrupted iterations
+shared_high_rate_429   [  32% ] 000/010 VUs  0m18.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  32% ] 000/010 VUs  0m18.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  32% ] 000/020 VUs  0m18.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  32% ] 000/020 VUs  0m18.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  32% ] 009/101 VUs  0m18.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  32% ] 005/051 VUs  0m18.9s/1m0s  950.00 iters/s
+
+running (0m19.9s), 0013/0212 VUs, 57974 complete and 0 interrupted iterations
+shared_high_rate_429   [  33% ] 000/010 VUs  0m19.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  33% ] 000/010 VUs  0m19.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  33% ] 000/020 VUs  0m19.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  33% ] 000/020 VUs  0m19.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  33% ] 009/101 VUs  0m19.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  33% ] 004/051 VUs  0m19.9s/1m0s  950.00 iters/s
+
+running (0m20.9s), 0011/0212 VUs, 60891 complete and 0 interrupted iterations
+shared_high_rate_429   [  35% ] 000/010 VUs  0m20.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  35% ] 000/010 VUs  0m20.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  35% ] 000/020 VUs  0m20.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  35% ] 000/020 VUs  0m20.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  35% ] 008/101 VUs  0m20.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  35% ] 003/051 VUs  0m20.9s/1m0s  950.00 iters/s
+
+running (0m21.9s), 0012/0212 VUs, 63805 complete and 0 interrupted iterations
+shared_high_rate_429   [  37% ] 000/010 VUs  0m21.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  37% ] 000/010 VUs  0m21.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  37% ] 000/020 VUs  0m21.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  37% ] 000/020 VUs  0m21.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  37% ] 008/101 VUs  0m21.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  37% ] 004/051 VUs  0m21.9s/1m0s  950.00 iters/s
+
+running (0m22.9s), 0010/0212 VUs, 66720 complete and 0 interrupted iterations
+shared_high_rate_429   [  38% ] 000/010 VUs  0m22.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  38% ] 000/010 VUs  0m22.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  38% ] 000/020 VUs  0m22.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  38% ] 000/020 VUs  0m22.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  38% ] 007/101 VUs  0m22.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  38% ] 003/051 VUs  0m22.9s/1m0s  950.00 iters/s
+
+running (0m23.9s), 0013/0212 VUs, 69632 complete and 0 interrupted iterations
+shared_high_rate_429   [  40% ] 000/010 VUs  0m23.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  40% ] 000/010 VUs  0m23.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  40% ] 000/020 VUs  0m23.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  40% ] 000/020 VUs  0m23.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  40% ] 008/101 VUs  0m23.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  40% ] 005/051 VUs  0m23.9s/1m0s  950.00 iters/s
+
+running (0m24.9s), 0012/0212 VUs, 72547 complete and 0 interrupted iterations
+shared_high_rate_429   [  42% ] 000/010 VUs  0m24.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  42% ] 000/010 VUs  0m24.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  42% ] 000/020 VUs  0m24.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  42% ] 000/020 VUs  0m24.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  42% ] 007/101 VUs  0m24.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  42% ] 005/051 VUs  0m24.9s/1m0s  950.00 iters/s
+
+running (0m25.9s), 0012/0212 VUs, 75461 complete and 0 interrupted iterations
+shared_high_rate_429   [  43% ] 000/010 VUs  0m25.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  43% ] 000/010 VUs  0m25.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  43% ] 000/020 VUs  0m25.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  43% ] 000/020 VUs  0m25.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  43% ] 007/101 VUs  0m25.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  43% ] 005/051 VUs  0m25.9s/1m0s  950.00 iters/s
+
+running (0m26.9s), 0013/0212 VUs, 78374 complete and 0 interrupted iterations
+shared_high_rate_429   [  45% ] 000/010 VUs  0m26.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  45% ] 000/010 VUs  0m26.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  45% ] 000/020 VUs  0m26.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  45% ] 000/020 VUs  0m26.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  45% ] 008/101 VUs  0m26.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  45% ] 005/051 VUs  0m26.9s/1m0s  950.00 iters/s
+
+running (0m27.9s), 0013/0212 VUs, 81287 complete and 0 interrupted iterations
+shared_high_rate_429   [  47% ] 000/010 VUs  0m27.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  47% ] 000/010 VUs  0m27.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  47% ] 000/020 VUs  0m27.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  47% ] 000/020 VUs  0m27.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  47% ] 008/101 VUs  0m27.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  47% ] 005/051 VUs  0m27.9s/1m0s  950.00 iters/s
+
+running (0m28.9s), 0013/0212 VUs, 84201 complete and 0 interrupted iterations
+shared_high_rate_429   [  48% ] 000/010 VUs  0m28.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  48% ] 000/010 VUs  0m28.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  48% ] 000/020 VUs  0m28.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  48% ] 000/020 VUs  0m28.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  48% ] 008/101 VUs  0m28.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  48% ] 004/051 VUs  0m28.9s/1m0s  950.00 iters/s
+
+running (0m29.9s), 0011/0212 VUs, 87118 complete and 0 interrupted iterations
+shared_high_rate_429   [  50% ] 000/010 VUs  0m29.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  50% ] 000/010 VUs  0m29.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  50% ] 000/020 VUs  0m29.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  50% ] 000/020 VUs  0m29.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  50% ] 008/101 VUs  0m29.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  50% ] 004/051 VUs  0m29.9s/1m0s  950.00 iters/s
+
+running (0m30.9s), 0011/0212 VUs, 90031 complete and 0 interrupted iterations
+shared_high_rate_429   [  52% ] 000/010 VUs  0m30.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  52% ] 000/010 VUs  0m30.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  52% ] 000/020 VUs  0m30.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  52% ] 000/020 VUs  0m30.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  52% ] 007/101 VUs  0m30.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  52% ] 005/051 VUs  0m30.9s/1m0s  950.00 iters/s
+
+running (0m31.9s), 0013/0212 VUs, 92943 complete and 0 interrupted iterations
+shared_high_rate_429   [  53% ] 000/010 VUs  0m31.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  53% ] 000/010 VUs  0m31.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  53% ] 000/020 VUs  0m31.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  53% ] 000/020 VUs  0m31.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  53% ] 009/101 VUs  0m31.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  53% ] 005/051 VUs  0m31.9s/1m0s  950.00 iters/s
+
+running (0m32.9s), 0013/0212 VUs, 95858 complete and 0 interrupted iterations
+shared_high_rate_429   [  55% ] 000/010 VUs  0m32.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  55% ] 000/010 VUs  0m32.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  55% ] 000/020 VUs  0m32.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  55% ] 000/020 VUs  0m32.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  55% ] 008/101 VUs  0m32.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  55% ] 005/051 VUs  0m32.9s/1m0s  950.00 iters/s
+
+running (0m33.9s), 0012/0212 VUs, 98772 complete and 0 interrupted iterations
+shared_high_rate_429   [  57% ] 000/010 VUs  0m33.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  57% ] 000/010 VUs  0m33.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  57% ] 000/020 VUs  0m33.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  57% ] 000/020 VUs  0m33.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  57% ] 009/101 VUs  0m33.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  57% ] 005/051 VUs  0m33.9s/1m0s  950.00 iters/s
+
+running (0m34.9s), 0016/0212 VUs, 101683 complete and 0 interrupted iterations
+shared_high_rate_429   [  58% ] 000/010 VUs  0m34.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  58% ] 000/010 VUs  0m34.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  58% ] 000/020 VUs  0m34.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  58% ] 000/020 VUs  0m34.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  58% ] 010/101 VUs  0m34.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  58% ] 005/051 VUs  0m34.9s/1m0s  950.00 iters/s
+
+running (0m35.9s), 0014/0212 VUs, 104599 complete and 0 interrupted iterations
+shared_high_rate_429   [  60% ] 000/010 VUs  0m35.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  60% ] 000/010 VUs  0m35.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  60% ] 000/020 VUs  0m35.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  60% ] 000/020 VUs  0m35.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  60% ] 009/101 VUs  0m35.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  60% ] 005/051 VUs  0m35.9s/1m0s  950.00 iters/s
+
+running (0m36.9s), 0013/0212 VUs, 107514 complete and 0 interrupted iterations
+shared_high_rate_429   [  62% ] 000/010 VUs  0m36.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  62% ] 000/010 VUs  0m36.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  62% ] 000/020 VUs  0m36.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  62% ] 000/020 VUs  0m36.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  62% ] 008/101 VUs  0m36.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  62% ] 005/051 VUs  0m36.9s/1m0s  950.00 iters/s
+
+running (0m37.9s), 0012/0212 VUs, 110429 complete and 0 interrupted iterations
+shared_high_rate_429   [  63% ] 000/010 VUs  0m37.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  63% ] 000/010 VUs  0m37.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  63% ] 000/020 VUs  0m37.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  63% ] 000/020 VUs  0m37.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  63% ] 008/101 VUs  0m37.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  63% ] 004/051 VUs  0m37.9s/1m0s  950.00 iters/s
+
+running (0m38.9s), 0010/0212 VUs, 113342 complete and 0 interrupted iterations
+shared_high_rate_429   [  65% ] 000/010 VUs  0m38.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  65% ] 000/010 VUs  0m38.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  65% ] 000/020 VUs  0m38.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  65% ] 000/020 VUs  0m38.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  65% ] 006/101 VUs  0m38.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  65% ] 004/051 VUs  0m38.9s/1m0s  950.00 iters/s
+
+running (0m39.9s), 0013/0212 VUs, 116256 complete and 0 interrupted iterations
+shared_high_rate_429   [  67% ] 000/010 VUs  0m39.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  67% ] 000/010 VUs  0m39.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  67% ] 000/020 VUs  0m39.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  67% ] 000/020 VUs  0m39.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  67% ] 008/101 VUs  0m39.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  67% ] 005/051 VUs  0m39.9s/1m0s  950.00 iters/s
+
+running (0m40.9s), 0011/0212 VUs, 119171 complete and 0 interrupted iterations
+shared_high_rate_429   [  68% ] 000/010 VUs  0m40.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  68% ] 000/010 VUs  0m40.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  68% ] 000/020 VUs  0m40.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  68% ] 000/020 VUs  0m40.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  68% ] 007/101 VUs  0m40.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  68% ] 005/051 VUs  0m40.9s/1m0s  950.00 iters/s
+
+running (0m41.9s), 0013/0212 VUs, 122084 complete and 0 interrupted iterations
+shared_high_rate_429   [  70% ] 000/010 VUs  0m41.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  70% ] 000/010 VUs  0m41.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  70% ] 000/020 VUs  0m41.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  70% ] 000/020 VUs  0m41.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  70% ] 008/101 VUs  0m41.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  70% ] 005/051 VUs  0m41.9s/1m0s  950.00 iters/s
+
+running (0m42.9s), 0012/0212 VUs, 124999 complete and 0 interrupted iterations
+shared_high_rate_429   [  72% ] 000/010 VUs  0m42.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  72% ] 000/010 VUs  0m42.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  72% ] 000/020 VUs  0m42.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  72% ] 000/020 VUs  0m42.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  72% ] 008/101 VUs  0m42.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  72% ] 004/051 VUs  0m42.9s/1m0s  950.00 iters/s
+
+running (0m43.9s), 0015/0212 VUs, 127910 complete and 0 interrupted iterations
+shared_high_rate_429   [  73% ] 000/010 VUs  0m43.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  73% ] 000/010 VUs  0m43.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  73% ] 000/020 VUs  0m43.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  73% ] 000/020 VUs  0m43.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  73% ] 010/101 VUs  0m43.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  73% ] 005/051 VUs  0m43.9s/1m0s  950.00 iters/s
+
+running (0m44.9s), 0011/0212 VUs, 130827 complete and 0 interrupted iterations
+shared_high_rate_429   [  75% ] 000/010 VUs  0m44.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  75% ] 000/010 VUs  0m44.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  75% ] 000/020 VUs  0m44.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  75% ] 000/020 VUs  0m44.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  75% ] 007/101 VUs  0m44.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  75% ] 004/051 VUs  0m44.9s/1m0s  950.00 iters/s
+
+running (0m45.9s), 0012/0212 VUs, 133740 complete and 0 interrupted iterations
+shared_high_rate_429   [  77% ] 000/010 VUs  0m45.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  77% ] 000/010 VUs  0m45.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  77% ] 000/020 VUs  0m45.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  77% ] 000/020 VUs  0m45.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  77% ] 007/101 VUs  0m45.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  77% ] 004/051 VUs  0m45.9s/1m0s  950.00 iters/s
+
+running (0m46.9s), 0013/0212 VUs, 136654 complete and 0 interrupted iterations
+shared_high_rate_429   [  78% ] 000/010 VUs  0m46.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  78% ] 000/010 VUs  0m46.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  78% ] 000/020 VUs  0m46.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  78% ] 000/020 VUs  0m46.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  78% ] 008/101 VUs  0m46.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  78% ] 005/051 VUs  0m46.9s/1m0s  950.00 iters/s
+
+running (0m47.9s), 0014/0212 VUs, 139567 complete and 0 interrupted iterations
+shared_high_rate_429   [  80% ] 000/010 VUs  0m47.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  80% ] 000/010 VUs  0m47.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  80% ] 000/020 VUs  0m47.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  80% ] 000/020 VUs  0m47.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  80% ] 008/101 VUs  0m47.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  80% ] 005/051 VUs  0m47.9s/1m0s  950.00 iters/s
+
+running (0m48.9s), 0014/0212 VUs, 142481 complete and 0 interrupted iterations
+shared_high_rate_429   [  82% ] 000/010 VUs  0m48.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  82% ] 000/010 VUs  0m48.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  82% ] 000/020 VUs  0m48.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  82% ] 000/020 VUs  0m48.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  82% ] 009/101 VUs  0m48.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  82% ] 005/051 VUs  0m48.9s/1m0s  950.00 iters/s
+
+running (0m49.9s), 0014/0212 VUs, 145395 complete and 0 interrupted iterations
+shared_high_rate_429   [  83% ] 000/010 VUs  0m49.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  83% ] 000/010 VUs  0m49.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  83% ] 000/020 VUs  0m49.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  83% ] 000/020 VUs  0m49.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  83% ] 009/101 VUs  0m49.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  83% ] 005/051 VUs  0m49.9s/1m0s  950.00 iters/s
+
+running (0m50.9s), 0015/0212 VUs, 148308 complete and 0 interrupted iterations
+shared_high_rate_429   [  85% ] 000/010 VUs  0m50.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  85% ] 000/010 VUs  0m50.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  85% ] 000/020 VUs  0m50.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  85% ] 000/020 VUs  0m50.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  85% ] 008/101 VUs  0m50.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  85% ] 007/051 VUs  0m50.9s/1m0s  950.00 iters/s
+
+running (0m51.9s), 0014/0212 VUs, 151223 complete and 0 interrupted iterations
+shared_high_rate_429   [  87% ] 000/010 VUs  0m51.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  87% ] 000/010 VUs  0m51.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  87% ] 000/020 VUs  0m51.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  87% ] 000/020 VUs  0m51.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  87% ] 010/101 VUs  0m51.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  87% ] 004/051 VUs  0m51.9s/1m0s  950.00 iters/s
+
+running (0m52.9s), 0012/0212 VUs, 154139 complete and 0 interrupted iterations
+shared_high_rate_429   [  88% ] 000/010 VUs  0m52.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  88% ] 000/010 VUs  0m52.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  88% ] 000/020 VUs  0m52.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  88% ] 000/020 VUs  0m52.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  88% ] 008/101 VUs  0m52.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  88% ] 004/051 VUs  0m52.9s/1m0s  950.00 iters/s
+
+running (0m53.9s), 0015/0212 VUs, 157050 complete and 0 interrupted iterations
+shared_high_rate_429   [  90% ] 000/010 VUs  0m53.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  90% ] 000/010 VUs  0m53.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  90% ] 000/020 VUs  0m53.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  90% ] 000/020 VUs  0m53.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  90% ] 010/101 VUs  0m53.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  90% ] 005/051 VUs  0m53.9s/1m0s  950.00 iters/s
+
+running (0m54.9s), 0012/0212 VUs, 159966 complete and 0 interrupted iterations
+shared_high_rate_429   [  92% ] 000/010 VUs  0m54.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  92% ] 000/010 VUs  0m54.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  92% ] 000/020 VUs  0m54.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  92% ] 000/020 VUs  0m54.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  92% ] 008/101 VUs  0m54.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  92% ] 005/051 VUs  0m54.9s/1m0s  950.00 iters/s
+
+running (0m55.9s), 0013/0212 VUs, 162880 complete and 0 interrupted iterations
+shared_high_rate_429   [  93% ] 000/010 VUs  0m55.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  93% ] 000/010 VUs  0m55.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  93% ] 000/020 VUs  0m55.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  93% ] 000/020 VUs  0m55.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  93% ] 008/101 VUs  0m55.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  93% ] 005/051 VUs  0m55.9s/1m0s  950.00 iters/s
+
+running (0m56.9s), 0012/0212 VUs, 165794 complete and 0 interrupted iterations
+shared_high_rate_429   [  95% ] 000/010 VUs  0m56.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  95% ] 000/010 VUs  0m56.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  95% ] 000/020 VUs  0m56.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  95% ] 000/020 VUs  0m56.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  95% ] 008/101 VUs  0m56.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  95% ] 005/051 VUs  0m56.9s/1m0s  950.00 iters/s
+
+running (0m57.9s), 0011/0212 VUs, 168710 complete and 0 interrupted iterations
+shared_high_rate_429   [  97% ] 000/010 VUs  0m57.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  97% ] 000/010 VUs  0m57.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  97% ] 000/020 VUs  0m57.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  97% ] 000/020 VUs  0m57.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  97% ] 007/101 VUs  0m57.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  97% ] 004/051 VUs  0m57.9s/1m0s  950.00 iters/s
+
+running (0m58.9s), 0012/0212 VUs, 171623 complete and 0 interrupted iterations
+shared_high_rate_429   [  98% ] 000/010 VUs  0m58.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [  98% ] 000/010 VUs  0m58.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [  98% ] 000/020 VUs  0m58.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [  98% ] 000/020 VUs  0m58.9s/1m0s  38.00 iters/s
+unique_pairs_429       [  98% ] 007/101 VUs  0m58.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [  98% ] 004/051 VUs  0m58.9s/1m0s  950.00 iters/s
+
+running (0m59.9s), 0011/0212 VUs, 174538 complete and 0 interrupted iterations
+shared_high_rate_429   [ 100% ] 000/010 VUs  0m59.9s/1m0s  44.00 iters/s
+shared_high_rate_ok    [ 100% ] 000/010 VUs  0m59.9s/1m0s  38.00 iters/s
+shared_low_rate_429    [ 100% ] 000/020 VUs  0m59.9s/1m0s  44.00 iters/s
+shared_low_rate_ok     [ 100% ] 000/020 VUs  0m59.9s/1m0s  38.00 iters/s
+unique_pairs_429       [ 100% ] 007/101 VUs  0m59.9s/1m0s  1800.00 iters/s
+unique_pairs_ok        [ 100% ] 004/051 VUs  0m59.9s/1m0s  950.00 iters/s
+
+================================================================================
+                        RATE LIMITING VALIDATION REPORT
+================================================================================
+
+TEST OVERVIEW
+-------------
+Verifying API Gateway rate limits using a Given-When-Then format.
+
+SCENARIO A: Unique Users (Normal Traffic)
+--------------------------------------------------------------------------------
+   GIVEN: 25 unique tenant/user pairs
+   WHEN:  sending 38 RPS each (Total: 950 RPS)
+   THEN:  All requests should be ALLOWED (200 OK)
+
+   ACTUAL RESULT:
+   - Allowed: 56963 requests
+   - Blocked: 0 requests
+   
+   STATUS: ✅ AS EXPECTED
+
+SCENARIO B: Unique Users (High Traffic)
+--------------------------------------------------------------------------------
+   GIVEN: 40 unique tenant/user pairs
+   WHEN:  sending 45 RPS each (Limit is 40 RPS)
+   THEN:  Excess traffic (~11%) should be BLOCKED (429)
+
+   ACTUAL RESULT:
+   - Blocked: 11800 requests (10.93%)
+   - Allowed: 96117 requests
+   - Target:  ~11% blocked
+   
+   STATUS: ✅ AS EXPECTED
+
+SCENARIO C: Shared Tenant (Low Traffic)
+--------------------------------------------------------------------------------
+   GIVEN: 19 users sharing one tenant
+   WHEN:  sending 2 RPS each (Total: 38 RPS)
+   THEN:  All requests should be ALLOWED (200 OK)
+
+   ACTUAL RESULT:
+   - Allowed: 2281 requests
+   - Blocked: 0 requests
+   
+   STATUS: ✅ AS EXPECTED
+
+SCENARIO D: Shared Tenant (High Traffic)
+--------------------------------------------------------------------------------
+   GIVEN: 2 users sharing one tenant
+   WHEN:  sending 19 RPS each (Total: 38 RPS)
+   THEN:  All requests should be ALLOWED (200 OK)
+
+   ACTUAL RESULT:
+   - Allowed: 2281 requests
+   - Blocked: 0 requests
+   
+   STATUS: ✅ AS EXPECTED
+
+SCENARIO E: Shared Tenant (Over Limit 1)
+--------------------------------------------------------------------------------
+   GIVEN: 11 users sharing one tenant
+   WHEN:  sending 4 RPS each (Total: 44 RPS, Limit is 40)
+   THEN:  Excess traffic (~9%) should be BLOCKED (429)
+
+   ACTUAL RESULT:
+   - Blocked: 236 requests (8.94%)
+   - Allowed: 2405 requests
+   - Target:  ~9% blocked
+   
+   STATUS: ✅ AS EXPECTED
+
+SCENARIO F: Shared Tenant (Over Limit 2)
+--------------------------------------------------------------------------------
+   GIVEN: 4 users sharing one tenant
+   WHEN:  sending 11 RPS each (Total: 44 RPS, Limit is 40)
+   THEN:  Excess traffic (~9%) should be BLOCKED (429)
+
+   ACTUAL RESULT:
+   - Blocked: 236 requests (8.94%)
+   - Allowed: 2405 requests
+   - Target:  ~9% blocked
+   
+   STATUS: ✅ AS EXPECTED
+
+================================================================================
+OVERALL PERFORMANCE
+-------------------
+   Average Latency: 4.28 ms
+   95th Percentile: 5.39 ms
+   99th Percentile: 7.18 ms
+   Max Latency:     126.42 ms
+
+ERROR ANALYSIS (Non-200/429 Responses)
+--------------------------------------
+   Total Requests:    174724
+   Failed/Other:      0
+   Error Rate:        0.0000%
+================================================================================
+
+running (1m00.0s), 0000/0212 VUs, 174724 complete and 0 interrupted iterations
+shared_high_rate_429 ✓ [ 100% ] 000/010 VUs  1m0s  44.00 iters/s
+shared_high_rate_ok  ✓ [ 100% ] 000/010 VUs  1m0s  38.00 iters/s
+shared_low_rate_429  ✓ [ 100% ] 000/020 VUs  1m0s  44.00 iters/s
+shared_low_rate_ok   ✓ [ 100% ] 000/020 VUs  1m0s  38.00 iters/s
+unique_pairs_429     ✓ [ 100% ] 000/101 VUs  1m0s  1800.00 iters/s
+unique_pairs_ok      ✓ [ 100% ] 000/051 VUs  1m0s  950.00 iters/s

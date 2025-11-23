@@ -1,0 +1,45 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: custom-proxy-config
+  namespace: envoy-gateway-system
+spec:
+  telemetry:
+    metrics:
+      prometheus:
+        disable: false
+    tracing:
+      provider:
+        type: Datadog
+        backendRefs:
+          - group: ""
+            kind: Service
+            name: datadog-agent
+            namespace: default
+            port: 8126
+      samplingRate: 100
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyDeployment:
+        replicas: 3
+        pod:
+          annotations:
+            ad.datadoghq.com/envoy.check_names: '["openmetrics"]'
+            ad.datadoghq.com/envoy.init_configs: '[{}]'
+            ad.datadoghq.com/envoy.instances: |
+              [
+                {
+                  "openmetrics_endpoint": "http://%%host%%:19001/stats/prometheus",
+                  "namespace": "envoy",
+                  "metrics": ["*"]
+                }
+              ]
+        container:
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "1Gi"

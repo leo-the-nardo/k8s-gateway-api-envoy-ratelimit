@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-generator
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: load-generator
+  template:
+    metadata:
+      labels:
+        app: load-generator
+    spec:
+      containers:
+      # Original load generator (basic traffic)
+      - name: load-generator
+        image: curlimages/curl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          while true; do
+            curl -H "Host: www.example.com" http://envoy-default-eg-e41e7b31.envoy-gateway-system.svc.cluster.local/ -s -o /dev/null -w "Status: %{http_code}\n"
+            sleep 0.7
+          done
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+      # Rate‑limit tester for backend policy
+      - name: rate-limit-tester
+        image: curlimages/curl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          while true; do
+            curl -H "Host: www.example.com" \
+                 -H "x-rate-limit-test: pass" \
+                 http://envoy-default-eg-e41e7b31.envoy-gateway-system.svc.cluster.local/ \
+                 -s -o /dev/null -w "Rate‑Limit‑Test Status: %{http_code}\n"
+            sleep 0.7
+          done
+        resources:
+          requests:
+            cpu: 50m
+            memory: 32Mi
+          limits:
+            cpu: 100m
+            memory: 64Mi
+      # External domain rate‑limit tester
+      - name: external-domain-rate-tester
+        image: curlimages/curl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          while true; do
+            curl -H "Host: external-domain.example.com" \
+                 -H "x-external-domain-rate-test: go" \
+                 http://envoy-default-eg-e41e7b31.envoy-gateway-system.svc.cluster.local/ \
+                 -s -o /dev/null -w "External‑Domain‑Test Status: %{http_code}\n" \
+                 --connect-timeout 3 --max-time 5 &
+            sleep 0.5
+          done
+        resources:
+          requests:
+            cpu: 50m
+            memory: 32Mi
+          limits:
+            cpu: 100m
+            memory: 64Mi

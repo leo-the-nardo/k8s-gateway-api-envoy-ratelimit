@@ -1,0 +1,39 @@
+# rate limiter rules to the kotlin internal backend route
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: policy-backend
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: backend # matches the HTTPRoute for internal backend
+  rateLimit:
+    type: Global
+    global:
+      rules:
+      - clientSelectors:
+        - headers:
+          - type: Distinct
+            name: x-user-id
+        limit:
+          requests: 40
+          unit: Second
+      - clientSelectors:
+        - headers:
+          - type: Distinct
+            name: x-user-tenant-id
+        limit:
+          requests: 40
+          unit: Second
+      
+      # matches the special header sent by the rate‑limit‑tester container.
+      - clientSelectors:
+        - headers:
+          - type: Exact
+            name: x-rate-limit-test
+            value: "pass"
+        limit:
+          requests: 1
+          unit: Second
+

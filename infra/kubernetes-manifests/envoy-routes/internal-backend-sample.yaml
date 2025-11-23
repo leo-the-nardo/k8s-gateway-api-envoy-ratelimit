@@ -1,0 +1,111 @@
+#Route manifests
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: backend
+spec:
+  parentRefs:
+    - name: eg
+  hostnames:
+    - "www.example.com"
+  rules:
+    - backendRefs:
+        - group: ""
+          kind: Service
+          name: backend
+          port: 3000
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+---
+#Backend manifests
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  labels:
+    app: backend
+    service: backend
+spec:
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 8
+  selector:
+    matchLabels:
+      app: backend
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: v1
+    spec:
+      serviceAccountName: backend
+      containers:
+        - image: leothenardo/kt-backend:1.0.1
+          imagePullPolicy: Always
+          name: backend
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "768Mi"
+            limits:
+              cpu: "2000m"
+              memory: "1.5Gi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 15
+          env:
+            - name: DD_SERVICE
+              value: "backend-service"
+            - name: DD_ENV
+              value: "dev"
+            - name: DD_VERSION
+              value: "1.0.0"
+            - name: DD_AGENT_HOST
+              value: "datadog-agent.default.svc.cluster.local"
+            - name: DD_LOGS_INJECTION
+              value: "true"
+            # CHANGED: 100% Sampling
+            - name: DD_TRACE_SAMPLE_RATE
+              value: "1"
+            - name: DD_TRACE_RATE_LIMIT
+              value: "100" 
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:MaxRAMPercentage=75.0 -javaagent:/app/dd-java-agent.jar"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
