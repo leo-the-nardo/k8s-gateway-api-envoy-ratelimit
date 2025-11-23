@@ -28,22 +28,17 @@ The testing infrastructure processes **~175,000 requests over 60 seconds** acros
 
 ## Results:
 
-1. **Precision Rate Limiting**
-   - Actual vs expected block rates differ by only **1-2%**
-   - Demonstrates excellent precision for distributed rate limiting
-   - Redis-backed counters provide strong consistency
+1. **Precision**
+   - Actual vs expected block rates differ by **1-2%**.
 
-2. **Predictable Performance**
-   - **Average latency: 4.28ms** (minimal overhead from rate limiting)
-   - **P95: 5.39ms**, **P99: 7.18ms** (consistent tail latency)
-   - Rate limit checks add negligible latency
+2. **Total Latency**
+   - **Average latency: 4.28ms**
+   - **P95: 5.39ms**
+   - **P99: 7.18ms**
 
-3. **Zero Error Rate**
-   - No failed requests (excluding intentional 429s)
-   - Current System Configuration handles **~3,000 RPS** without issues
-   - Fail-open configuration (`failClosed: false`) ensures availability
-   - 3 Envoy Proxy replicas + 3 Rate Limit Service replicas
-   - Efficiently handled 174k+ requests over 60 seconds
+3. **Error Rate**
+   - 0% failed requests (excluding intentional 429s)
+   - Current Configuration handled **~3,000 RPS** for 60sec (175k req)
 
 ---
 
